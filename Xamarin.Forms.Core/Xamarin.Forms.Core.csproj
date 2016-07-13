@@ -87,6 +87,11 @@
     <Compile Include="DateChangedEventArgs.cs" />
     <Compile Include="DelegateLogListener.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="IConfigAndroid.cs" />
+    <Compile Include="IConfigIOS.cs" />
+    <Compile Include="IConfigPlatform.cs" />
+    <Compile Include="IConfigWindows.cs" />
+    <Compile Include="IConfigElement.cs" />
     <Compile Include="IElementConfiguration.cs" />
     <Compile Include="IFontElement.cs" />
     <Compile Include="DependencyAttribute.cs" />
@@ -141,6 +146,7 @@
     <Compile Include="IPanGestureController.cs" />
     <Compile Include="IPinchGestureController.cs" />
     <Compile Include="IPlatform.cs" />
+    <Compile Include="IPlatformElementConfiguration.cs" />
     <Compile Include="IProvideParentValues.cs" />
     <Compile Include="IProvideValueTarget.cs" />
     <Compile Include="IRegisterable.cs" />
@@ -197,6 +203,7 @@
     <Compile Include="Performance.cs" />
     <Compile Include="PinchGestureUpdatedEventArgs.cs" />
     <Compile Include="PlatformEffect.cs" />
+    <Compile Include="PlatformSpecifics.cs" />
     <Compile Include="PointTypeConverter.cs" />
     <Compile Include="Internals\PreserveAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

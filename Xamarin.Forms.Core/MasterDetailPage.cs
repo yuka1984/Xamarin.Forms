@@ -4,7 +4,7 @@ using Xamarin.Forms.Platform;
 namespace Xamarin.Forms
 {
 	[RenderWith(typeof(_MasterDetailPageRenderer))]
-	public class MasterDetailPage : Page, IMasterDetailPageController, IMasterDetailPagePlatformConfiguration
+	public class MasterDetailPage : Page, IMasterDetailPageController, IElementConfiguration<MasterDetailPage>
 	{
 		public static readonly BindableProperty IsGestureEnabledProperty = BindableProperty.Create("IsGestureEnabled", typeof(bool), typeof(MasterDetailPage), true);
 
@@ -25,8 +25,8 @@ namespace Xamarin.Forms
 		public MasterDetailPage()
 		{
 			_windows = new MasterDetailPageWindowsConfiguration(this);
-			_android = new MasterDetailPageAndroidConfiguration(this);
-			_ios = new MasterDetailPageiOsConfiguration(this);
+			//_android = new MasterDetailPageAndroidConfiguration(this);
+			//_ios = new MasterDetailPageiOsConfiguration(this);
 		}
 
 		IPageController PageController => this as IPageController;
@@ -245,26 +245,26 @@ namespace Xamarin.Forms
 			UpdateMasterBehavior(page);
 		}
 
-		readonly IMasterDetailPageWindowsConfiguration _windows;
-		readonly IMasterDetailPageAndroidConfiguration _android;
-		readonly IMasterDetailPageiOSConfiguration _ios;
+		readonly IPlatformElementConfiguration<IConfigWindows, MasterDetailPage> _windows;
+		//readonly IPlatformElementConfiguration<IConfigAndroid, MasterDetailPage> _android;
+		//readonly IPlatformElementConfiguration<IConfigIOS, MasterDetailPage> _ios;
 
-		public IMasterDetailPageWindowsConfiguration OnWindows()
+		public IPlatformElementConfiguration<IConfigWindows, MasterDetailPage> OnWindows()
 		{
 			return _windows;
 		}
 
-		public IMasterDetailPageAndroidConfiguration OnAndroid()
+		public IPlatformElementConfiguration<IConfigAndroid, MasterDetailPage> OnAndroid()
 		{
-			return _android;
+			throw new NotImplementedException();
+			//return _android;
 		}
 
-		public IMasterDetailPageiOSConfiguration OniOS()
+		public IPlatformElementConfiguration<IConfigIOS, MasterDetailPage> OniOS()
 		{
-			return _ios;
+			throw new NotImplementedException();
+			//return _ios;
 		}
-
-		public IMasterDetailPageiOSConfiguration iOS { get; }
 	}
 
 

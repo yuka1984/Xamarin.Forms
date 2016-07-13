@@ -21,7 +21,7 @@ namespace Xamarin.Forms.Controls
 			return (bool)mdp.GetValue(FooProperty);
 		}
 
-		public static void SetVendorFoo(this IMasterDetailPageWindowsConfiguration config, bool value)
+		public static void SetVendorFoo(this IPlatformElementConfiguration<IConfigWindows, MasterDetailPage> config, bool value)
 		{
 			config.Element.SetFoo(value);
 		}
@@ -51,19 +51,7 @@ namespace Xamarin.Forms.Controls
 				Detail = CoreGallery.GetMainPage()
 			};
 
-			// set some platform specific stuff
-			x.OnAndroid().SomeAndroidThing = 4;
-			x.OnAndroid().SomeOtherAndroidThing = 5;
-
-			// or
-
-			x.OnAndroid().UseTabletDefaults().SetThing(5);
-
-			x.OnWindows()
-				.UsePartialCollapse();
-
-			// Vendor Specific
-			x.OnWindows().SetVendorFoo(false);
+			x.OnWindows().UsePartialCollapse().SetVendorFoo(false);
 
 			MainPage = x;
 		}
