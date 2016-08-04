@@ -28,13 +28,12 @@ namespace Xamarin.Forms.Platform.iOS
 			return new SizeRequest(request, minimum);
 		}
 
-		public static void SetBinding(this UIView view, string propertyName, BindingBase binding, string eventSourceName)
+		public static void SetBinding(this UIView view, string propertyName, BindingBase binding, string updateSourceEventName = null)
 		{
-			NativeBindingHelpers.SetBinding(view, propertyName, binding, eventSourceName);
-		}
-
-		public static void SetBinding(this UIView view, string propertyName, BindingBase binding)
-		{
+			if (!string.IsNullOrEmpty(updateSourceEventName)){
+				NativeBindingHelpers.SetBinding(view, propertyName, binding, eventSourceName);
+				return;
+			}
 			NativeViewPropertyListener nativePropertyListener = null;
 			if (binding.Mode == BindingMode.TwoWay) {
 				nativePropertyListener = new NativeViewPropertyListener(propertyName);
@@ -44,9 +43,14 @@ namespace Xamarin.Forms.Platform.iOS
 			NativeBindingHelpers.SetBinding(view, propertyName, binding, nativePropertyListener);
 		}
 
-		public static void SetValue(this UIView target, BindableProperty targetProperty, object value)
+		public static void SetBinding(this UIView self, BindableProperty targetProperty, BindingBase binding)
 		{
-			NativeBindingHelpers.SetValue(target, targetProperty, value);
+			NativeBindingHelpers.SetValue(self, targetProperty, binding);
+		}
+
+		public static void SetValue(this UIView target, BindableProperty targetProperty, object @value)
+		{
+			NativeBindingHelpers.SetValue(target, targetProperty, @value);
 		}
 
 		public static void SetBindingContext(this UIView target, object bindingContext, Func<UIView, IEnumerable<UIView>> getChildren = null)
