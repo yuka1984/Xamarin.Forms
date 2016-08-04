@@ -13,6 +13,10 @@ namespace Xamarin.Forms.Core.UnitTests
 		public int Bar { get; set; }
 		public string Baz { get; set; }
 
+		public MockNativeView()
+		{
+		}
+
 		public void FireBazChanged()
 		{
 			BazChanged?.Invoke(this, new TappedEventArgs(null));
@@ -338,7 +342,7 @@ namespace Xamarin.Forms.Core.UnitTests
 		[Test]
 		public void SetBindingContextToSubviews()
 		{
-			var nativeView = new MockNativeView();
+			var nativeView = new MockNativeView { SubViews = new List<MockNativeView> ()};
 			var nativeViewChild = new MockNativeView();
 
 			nativeViewChild.SetBinding("Foo", new Binding("FFoo", mode: BindingMode.OneWay));

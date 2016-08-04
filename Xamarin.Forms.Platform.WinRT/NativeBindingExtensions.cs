@@ -13,23 +13,29 @@ namespace Xamarin.Forms.Platform.WinRT
 {
 	public static class NativeBindingExtensions
 	{
-		public static void SetBinding(this FrameworkElement view, string propertyName, BindingBase binding, string eventSourceName)
+		public static void SetBinding(this FrameworkElement view, string propertyName, BindingBase binding, string updateSourceEventName = null)
 		{
+			if (string.IsNullOrEmpty(updateSourceEventName))
+			{
+				NativePropertyListener nativePropertyListener = null;
+				if (binding.Mode == BindingMode.TwoWay)
+					nativePropertyListener = new NativePropertyListener(view, propertyName);
+
+
+				NativeBindingHelpers.SetBinding(view, propertyName, binding, nativePropertyListener as INotifyPropertyChanged);
+				return;
+			}
+
 			NativeEventWrapper eventE = null;
 			if (binding.Mode == BindingMode.TwoWay && !(view is INotifyPropertyChanged))
-				eventE = new NativeEventWrapper(view, propertyName, eventSourceName);
+				eventE = new NativeEventWrapper(view, propertyName, updateSourceEventName);
 
 			NativeBindingHelpers.SetBinding(view, propertyName, binding, eventE);
 		}
 
-		public static void SetBinding(this FrameworkElement view, string propertyName, BindingBase binding)
+		public static void SetBinding(this FrameworkElement view, BindableProperty targetProperty, BindingBase binding)
 		{
-			NativePropertyListener nativePropertyListener = null;
-			if (binding.Mode == BindingMode.TwoWay)
-				nativePropertyListener = new NativePropertyListener(view, propertyName);
-
-
-			NativeBindingHelpers.SetBinding(view, propertyName, binding, nativePropertyListener as INotifyPropertyChanged);
+			NativeBindingHelpers.SetBinding(view, targetProperty, binding);
 		}
 
 		public static void SetValue(this FrameworkElement target, BindableProperty targetProperty, object value)

@@ -30,10 +30,12 @@ namespace Xamarin.Forms.Platform.iOS
 
 		public static void SetBinding(this UIView view, string propertyName, BindingBase binding, string updateSourceEventName = null)
 		{
-			if (!string.IsNullOrEmpty(updateSourceEventName)){
-				NativeBindingHelpers.SetBinding(view, propertyName, binding, eventSourceName);
+			if (!string.IsNullOrEmpty(updateSourceEventName))
+			{
+				NativeBindingHelpers.SetBinding(view, propertyName, binding, updateSourceEventName);
 				return;
 			}
+
 			NativeViewPropertyListener nativePropertyListener = null;
 			if (binding.Mode == BindingMode.TwoWay) {
 				nativePropertyListener = new NativeViewPropertyListener(propertyName);
@@ -48,9 +50,9 @@ namespace Xamarin.Forms.Platform.iOS
 			NativeBindingHelpers.SetValue(self, targetProperty, binding);
 		}
 
-		public static void SetValue(this UIView target, BindableProperty targetProperty, object @value)
+		public static void SetValue(this UIView target, BindableProperty targetProperty, object value)
 		{
-			NativeBindingHelpers.SetValue(target, targetProperty, @value);
+			NativeBindingHelpers.SetValue(target, targetProperty, value);
 		}
 
 		public static void SetBindingContext(this UIView target, object bindingContext, Func<UIView, IEnumerable<UIView>> getChildren = null)
