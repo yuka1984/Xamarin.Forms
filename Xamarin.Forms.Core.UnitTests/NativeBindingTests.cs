@@ -73,19 +73,6 @@ namespace Xamarin.Forms.Core.UnitTests
 			get;
 			set;
 		}
-
-		public override bool Equals(object obj)
-		{
-			var mnc = obj as MockNativeColor;
-			if (mnc == null)
-				return base.Equals(obj);
-			return FormsColor.Equals(mnc.FormsColor);
-		}
-
-		public override int GetHashCode()
-		{
-			return FormsColor.GetHashCode();
-		}
 	}
 
 	public static class MockNativeViewExtensions
@@ -174,6 +161,8 @@ namespace Xamarin.Forms.Core.UnitTests
 			get { return cColor; }
 			set
 			{
+				if (cColor == value)
+					return;
 				cColor = value;
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CColor"));
 			}

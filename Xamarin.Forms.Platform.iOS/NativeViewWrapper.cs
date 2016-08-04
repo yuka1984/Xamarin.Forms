@@ -22,6 +22,11 @@ namespace Xamarin.Forms.Platform.iOS
 			SizeThatFitsDelegate = sizeThatFitsDelegate;
 			LayoutSubViews = layoutSubViews;
 			NativeView = nativeView;
+
+			BindableObjectProxy<UIView> proxy;
+			if (!BindableObjectProxy<UIView>.BindableObjectProxies.TryGetValue(nativeView, out proxy))
+				return;
+			proxy.TransferAttachedPropertiesTo(this);
 		}
 
 		public GetDesiredSizeDelegate GetDesiredSizeDelegate { get; }
@@ -31,5 +36,11 @@ namespace Xamarin.Forms.Platform.iOS
 		public UIView NativeView { get; }
 
 		public SizeThatFitsDelegate SizeThatFitsDelegate { get; set; }
+
+		protected override void OnBindingContextChanged()
+		{
+			NativeView.SetBindingContext(BindingContext, nv => nv.Subviews);
+			base.OnBindingContextChanged();
+		}
 	}
 }

@@ -148,6 +148,8 @@
     <Compile Include="ViewInitializedEventArgs.cs" />
     <Compile Include="IOSAppIndexingProvider.cs" />
     <Compile Include="IOSAppLinks.cs" />
+    <Compile Include="Extensions\NativeBindingExtensions.cs" />
+    <Compile Include="NativeViewPropertyListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\StringResources.ar.resx" />

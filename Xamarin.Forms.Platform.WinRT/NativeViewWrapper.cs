@@ -1,4 +1,5 @@
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 #if WINDOWS_UWP
 
@@ -26,5 +27,12 @@ namespace Xamarin.Forms.Platform.WinRT
 		public MeasureOverrideDelegate MeasureOverrideDelegate { get; set; }
 
 		public FrameworkElement NativeElement { get; }
+
+		protected override void OnBindingContextChanged()
+		{
+			var pn = NativeElement is Panel;
+			NativeBindingHelpers.SetBindingContext(NativeElement, BindingContext,  nv =>  nv.GetChildren<FrameworkElement>());
+			base.OnBindingContextChanged();
+		}
 	}
 }
