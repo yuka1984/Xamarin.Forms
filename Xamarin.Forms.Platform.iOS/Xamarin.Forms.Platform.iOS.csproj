@@ -136,7 +136,6 @@
     <Compile Include="NativeViewWrapper.cs" />
     <Compile Include="NativeViewWrapperRenderer.cs" />
     <Compile Include="PlatformEffect.cs" />
-    <Compile Include="LayoutExtensions.cs" />
     <Compile Include="Renderers\AlignmentExtensions.cs" />
     <Compile Include="Forms.cs" />
     <Compile Include="PageExtensions.cs" />
@@ -148,8 +147,8 @@
     <Compile Include="ViewInitializedEventArgs.cs" />
     <Compile Include="IOSAppIndexingProvider.cs" />
     <Compile Include="IOSAppLinks.cs" />
-    <Compile Include="Extensions\NativeBindingExtensions.cs" />
     <Compile Include="NativeViewPropertyListener.cs" />
+    <Compile Include="Extensions\LayoutExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\StringResources.ar.resx" />
