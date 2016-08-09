@@ -63,7 +63,7 @@
 				</local:MockFactory>
 			</local:MockView.Content>
 		</local:MockView>
-				<local:MockView x:Name="v7">
+		<local:MockView x:Name="v7">
 			<local:MockView.Content>
 				<local:MockFactory x:Arguments="{x:Static local:MockxStatic.MockStaticProperty}"/>
 			</local:MockView.Content>
