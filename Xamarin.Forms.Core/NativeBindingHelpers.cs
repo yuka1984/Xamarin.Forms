@@ -27,11 +27,17 @@ namespace Xamarin.Forms
 				throw new ArgumentNullException(nameof(target));
 			if (string.IsNullOrEmpty(targetProperty))
 				throw new ArgumentNullException(nameof(targetProperty));
-			
+
+			var binding = bindingBase as Binding;
+			//This will allow setting bindings from Xaml by reusing the MarkupExtension
+			if (propertyChanged == null && binding != null && !IsNullOrEmpty(binding.UpdateSourceEventName)) {
+				SetBinding(target, targetProperty, binding, binding.UpdateSourceEventName);
+				return;
+			}
+
 			var proxy = BindableObjectProxy<TNativeView>.BindableObjectProxies.GetValue(target, (TNativeView key) => new BindableObjectProxy<TNativeView>(key));
 			BindableProperty bindableProperty = null;
 			propertyChanged = propertyChanged ?? target as INotifyPropertyChanged;
-			var binding = bindingBase as Binding;
 			bindableProperty = CreateBindableProperty<TNativeView>(targetProperty);
 			if (binding != null && binding.Mode != BindingMode.OneWay && propertyChanged != null)
 				propertyChanged.PropertyChanged += (sender, e) => {

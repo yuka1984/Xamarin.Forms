@@ -271,6 +271,29 @@ namespace Xamarin.Forms.Core.UnitTests
 		}
 
 		[Test]
+		public void Set2WayBindingsWithUpdateSourceEventInBindingObject()
+		{
+			var nativeView = new MockNativeView();
+			Assert.AreEqual(null, nativeView.Baz);
+
+			var vm = new MockVMForNativeBinding();
+			nativeView.SetBindingContext(vm);
+
+			nativeView.SetBinding("Baz", new Binding("FFoo", mode: BindingMode.TwoWay) { UpdateSourceEventName = "BazChanged"});
+			Assert.AreEqual(null, nativeView.Baz);
+			Assert.AreEqual(null, vm.FFoo);
+
+			nativeView.Baz = "oof";
+			nativeView.FireBazChanged();
+			Assert.AreEqual("oof", nativeView.Baz);
+			Assert.AreEqual("oof", vm.FFoo);
+
+			vm.FFoo = "foo";
+			Assert.AreEqual("foo", nativeView.Baz);
+			Assert.AreEqual("foo", vm.FFoo);
+		}
+
+		[Test]
 		public void NativeViewsAreCollected()
 		{
 			WeakReference wr = null;
