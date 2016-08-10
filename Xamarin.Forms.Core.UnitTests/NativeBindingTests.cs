@@ -13,10 +13,6 @@ namespace Xamarin.Forms.Core.UnitTests
 		public int Bar { get; set; }
 		public string Baz { get; set; }
 
-		public MockNativeView()
-		{
-		}
-
 		public void FireBazChanged()
 		{
 			BazChanged?.Invoke(this, new TappedEventArgs(null));
@@ -322,8 +318,8 @@ namespace Xamarin.Forms.Core.UnitTests
 				nativeView.SetBinding("fooBar", new Binding("Foo", BindingMode.TwoWay));
 				nativeView.SetBinding("Baz", new Binding("Qux", BindingMode.TwoWay), "BazChanged");
 
-				BindableObjectProxy<MockNativeView> proxy;
-				if (!BindableObjectProxy<MockNativeView>.BindableObjectProxies.TryGetValue(nativeView, out proxy))
+				NativeBindingHelpers.BindableObjectProxy<MockNativeView> proxy;
+				if (!NativeBindingHelpers.BindableObjectProxy<MockNativeView>.BindableObjectProxies.TryGetValue(nativeView, out proxy))
 					Assert.Fail();
 
 				wr = new WeakReference(proxy);
@@ -362,7 +358,7 @@ namespace Xamarin.Forms.Core.UnitTests
 		}
 
 		[Test]
-		public void ThrowsAREIfEventNotprovided()
+		public void ThrowsOnEmptyEvent()
 		{
 			var nativeView = new MockNativeView();
 
@@ -446,6 +442,31 @@ namespace Xamarin.Forms.Core.UnitTests
 			nativeView.SetBindingContext(vm);
 
 			Assert.AreEqual(count, 1);
+		}
+
+		[Test]
+		public void ThrowsOnMissingProperty()
+		{
+			var nativeView = new MockNativeView();
+			nativeView.SetBinding("Qux", new Binding("Foo"));
+			Assert.Throws<InvalidOperationException>(()=>nativeView.SetBindingContext(new { Foo = 42 }));
+		}
+
+		[Test]
+		public void ThrowsOnMissingEvent()
+		{
+			var nativeView = new MockNativeView();
+			Assert.Throws<ArgumentException>(()=>nativeView.SetBinding("Foo", new Binding("Foo", BindingMode.TwoWay), "missingEvent"));
+		}
+
+		[Test]
+		public void OneWayToSourceAppliedOnSetBC()
+		{
+			var nativeView = new MockNativeView { Foo = "foobar" };
+			nativeView.SetBinding("Foo", new Binding("FFoo", BindingMode.OneWayToSource));
+			var vm = new MockVMForNativeBinding { FFoo = "qux" };
+			nativeView.SetBindingContext(vm);
+			Assert.AreEqual("foobar", vm.FFoo);
 		}
 	}
 }

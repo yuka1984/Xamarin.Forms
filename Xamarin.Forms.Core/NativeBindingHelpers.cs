@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms.Internals;
 
+using static System.String;
+
 namespace Xamarin.Forms
 {
 	static class NativeBindingHelpers
@@ -37,6 +39,10 @@ namespace Xamarin.Forms
 						return;
 				SetValueFromNative<TNativeView>(sender as TNativeView, targetProperty, bindableProperty);
 			};
+
+			if (binding != null && binding.Mode != BindingMode.OneWay)
+				SetValueFromNative(target, targetProperty, bindableProperty);
+
 			proxy.SetBinding(bindableProperty, bindingBase);
 		}
 
@@ -57,7 +63,10 @@ namespace Xamarin.Forms
 
 		static void SetNativeValue<TNativeView>(TNativeView target, string targetProperty, object newValue) where TNativeView : class
 		{
-			target.GetType().GetProperty(targetProperty)?.SetMethod?.Invoke(target, new [] { newValue });
+			var mi = target.GetType().GetProperty(targetProperty)?.SetMethod;
+			if (mi == null)
+				throw new InvalidOperationException(Format("Native Binding on {0}.{1} failed due to missing or innacessible property", target.GetType(), targetProperty));
+			mi.Invoke(target, new [] { newValue });
 		}
 
 		static void SetValueFromNative<TNativeView>(TNativeView target, string targetProperty, BindableProperty bindableProperty) where TNativeView : class
@@ -138,7 +147,7 @@ namespace Xamarin.Forms
 					updateSourceEvent = target.GetType().GetRuntimeEvent(updateSourceEventName);
 					handlerDelegate = s_handlerinfo.CreateDelegate(updateSourceEvent.EventHandlerType, this);
 				} catch (Exception){
-					Log.Warning("EventWrapper", "Can not attach EventWrapper.");
+					throw new ArgumentException(Format("No declared or accessible event {0} on {1}",updateSourceEventName,target.GetType()), nameof(updateSourceEventName));
 				}
 				if (updateSourceEvent != null && handlerDelegate != null)
 					updateSourceEvent.AddEventHandler(target, handlerDelegate);
@@ -153,7 +162,8 @@ namespace Xamarin.Forms
 			public event PropertyChangedEventHandler PropertyChanged;
 		}
 
-		class BindableObjectProxy<TNativeView> : BindableObject where TNativeView : class
+		//This needs to be internal for testing purposes
+		internal class BindableObjectProxy<TNativeView> : BindableObject where TNativeView : class
 		{
 			public static ConditionalWeakTable<TNativeView, BindableObjectProxy<TNativeView>> BindableObjectProxies { get; } = new ConditionalWeakTable<TNativeView, BindableObjectProxy<TNativeView>>();
 			public WeakReference<TNativeView> TargetReference { get; set; }
