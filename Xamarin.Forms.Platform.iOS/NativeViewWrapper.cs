@@ -23,10 +23,7 @@ namespace Xamarin.Forms.Platform.iOS
 			LayoutSubViews = layoutSubViews;
 			NativeView = nativeView;
 
-			BindableObjectProxy<UIView> proxy;
-			if (!BindableObjectProxy<UIView>.BindableObjectProxies.TryGetValue(nativeView, out proxy))
-				return;
-			proxy.TransferAttachedPropertiesTo(this);
+			nativeView.TransferbindablePropertiesToWrapper(this);
 		}
 
 		public GetDesiredSizeDelegate GetDesiredSizeDelegate { get; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms.Internals;
 
 namespace Xamarin.Forms
@@ -113,6 +114,16 @@ namespace Xamarin.Forms
 					SetBindingContext(child, bindingContext, getChild);
 		}
 
+		internal static void TransferbindablePropertiesToWrapper<TNativeView, TNativeWrapper>(TNativeView nativeView, TNativeWrapper wrapper) 
+			where TNativeView : class 
+			where TNativeWrapper : View
+		{
+			BindableObjectProxy<TNativeView> proxy;
+			if (!BindableObjectProxy<TNativeView>.BindableObjectProxies.TryGetValue(nativeView, out proxy))
+				return;
+			proxy.TransferAttachedPropertiesTo(wrapper);
+		}
+
 		class EventWrapper : INotifyPropertyChanged
 		{
 			string TargetProperty { get; set; }
@@ -140,6 +151,27 @@ namespace Xamarin.Forms
 			}
 
 			public event PropertyChangedEventHandler PropertyChanged;
+		}
+
+		class BindableObjectProxy<TNativeView> : BindableObject where TNativeView : class
+		{
+			public static ConditionalWeakTable<TNativeView, BindableObjectProxy<TNativeView>> BindableObjectProxies { get; } = new ConditionalWeakTable<TNativeView, BindableObjectProxy<TNativeView>>();
+			public WeakReference<TNativeView> TargetReference { get; set; }
+			public IList<KeyValuePair<BindableProperty, BindingBase>> BindingsBackpack { get; } = new List<KeyValuePair<BindableProperty, BindingBase>>();
+			public IList<KeyValuePair<BindableProperty, object>> ValuesBackpack { get; } = new List<KeyValuePair<BindableProperty, object>>();
+
+			public BindableObjectProxy(TNativeView target)
+			{
+				TargetReference = new WeakReference<TNativeView>(target);
+			}
+
+			public void TransferAttachedPropertiesTo(View wrapper)
+			{
+				foreach (var kvp in BindingsBackpack)
+					wrapper.SetBinding(kvp.Key, kvp.Value);
+				foreach (var kvp in ValuesBackpack)
+					wrapper.SetValue(kvp.Key, kvp.Value);
+			}
 		}
 	}
 }

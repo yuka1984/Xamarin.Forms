@@ -11,10 +11,8 @@ namespace Xamarin.Forms.Platform.Android
 			NativeView = nativeView;
 			OnLayoutDelegate = onLayoutDelegate;
 			OnMeasureDelegate = onMeasureDelegate;
-			BindableObjectProxy<global::Android.Views.View> proxy;
-			if (!BindableObjectProxy<global::Android.Views.View>.BindableObjectProxies.TryGetValue(nativeView, out proxy))
-				return;
-			proxy.TransferAttachedPropertiesTo(this);
+
+			nativeView.TransferbindablePropertiesToWrapper(this);
 		}
 
 		public GetDesiredSizeDelegate GetDesiredSizeDelegate { get; }
@@ -27,7 +25,7 @@ namespace Xamarin.Forms.Platform.Android
 
 		protected override void OnBindingContextChanged()
 		{
-			NativeBindingHelpers.SetBindingContext(NativeView, BindingContext, (view) => (view as ViewGroup)?.GetChildrenOfType<global::Android.Views.View>());
+			NativeView.SetBindingContext(BindingContext, (view) => (view as ViewGroup)?.GetChildrenOfType<global::Android.Views.View>());
 			base.OnBindingContextChanged();
 		}
 	}

@@ -47,5 +47,10 @@ namespace Xamarin.Forms.Platform.WinRT
 		{
 			NativeBindingHelpers.SetBindingContext(target, bindingContext, getChildren);
 		}
+
+		internal static void TransferbindablePropertiesToWrapper(this FrameworkElement target, View wrapper)
+		{
+			NativeBindingHelpers.TransferbindablePropertiesToWrapper(target, wrapper);
+		}
 	}
 }

@@ -18,6 +18,7 @@ namespace Xamarin.Forms.Platform.WinRT
 			ArrangeOverrideDelegate = arrangeOverrideDelegate;
 			MeasureOverrideDelegate = measureOverrideDelegate;
 			NativeElement = nativeElement;
+			nativeElement.TransferbindablePropertiesToWrapper(this);
 		}
 
 		public ArrangeOverrideDelegate ArrangeOverrideDelegate { get; set; }
@@ -30,8 +31,7 @@ namespace Xamarin.Forms.Platform.WinRT
 
 		protected override void OnBindingContextChanged()
 		{
-			var pn = NativeElement is Panel;
-			NativeBindingHelpers.SetBindingContext(NativeElement, BindingContext,  nv =>  nv.GetChildren<FrameworkElement>());
+			NativeElement.SetBindingContext(BindingContext,  nv =>  nv.GetChildren<FrameworkElement>());
 			base.OnBindingContextChanged();
 		}
 	}

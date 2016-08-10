@@ -417,7 +417,6 @@
     <Compile Include="IAppIndexingProvider.cs" />
     <Compile Include="ListStringTypeConverter.cs" />
     <Compile Include="PoppedToRootEventArgs.cs" />
-    <Compile Include="BindableObjectProxy.cs" />
     <Compile Include="NativeBindingHelpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

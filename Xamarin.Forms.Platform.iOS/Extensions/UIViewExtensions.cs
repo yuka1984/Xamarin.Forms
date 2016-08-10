@@ -60,6 +60,11 @@ namespace Xamarin.Forms.Platform.iOS
 			NativeBindingHelpers.SetBindingContext(target, bindingContext, getChildren);
 		}
 
+		internal static void TransferbindablePropertiesToWrapper(this UIView target, View wrapper)
+		{
+			NativeBindingHelpers.TransferbindablePropertiesToWrapper(target, wrapper);
+		}
+
 		internal static T FindDescendantView<T>(this UIView view) where T : UIView
 		{
 			var queue = new Queue<UIView>();

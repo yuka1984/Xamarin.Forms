@@ -48,12 +48,7 @@ namespace Xamarin.Forms.Core.UnitTests
 		public MockNativeViewWrapper(MockNativeView nativeView)
 		{
 			NativeView = nativeView;
-
-			//move all the Attached BPs from the nativeView to this wrapper
-			BindableObjectProxy<MockNativeView> proxy;
-			if (!BindableObjectProxy<MockNativeView>.BindableObjectProxies.TryGetValue(nativeView, out proxy))
-				return;
-			proxy.TransferAttachedPropertiesTo(this);
+			nativeView.TransferbindablePropertiesToWrapper(this);
 		}
 
 		protected override void OnBindingContextChanged()
@@ -109,6 +104,11 @@ namespace Xamarin.Forms.Core.UnitTests
 		public static void SetBindingContext(this MockNativeView target, object bindingContext, Func<MockNativeView, IEnumerable<MockNativeView>> getChild = null)
 		{
 			NativeBindingHelpers.SetBindingContext(target, bindingContext, getChild);
+		}
+
+		internal static void TransferbindablePropertiesToWrapper(this MockNativeView target, MockNativeViewWrapper wrapper)
+		{
+			NativeBindingHelpers.TransferbindablePropertiesToWrapper(target, wrapper);
 		}
 	}
 
