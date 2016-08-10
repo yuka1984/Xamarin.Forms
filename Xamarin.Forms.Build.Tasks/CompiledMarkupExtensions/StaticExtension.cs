@@ -82,10 +82,6 @@ namespace Xamarin.Forms.Build.Tasks
 			PropertyDefinition pDef = typeRef.GetProperty(pd => pd.Name == propertyName &&
 			                                              pd.GetMethod.IsPublic &&
 			                                              pd.GetMethod.IsStatic, out declaringTypeReference);
-			//if (pRef != null) {
-			//	pRef = module.Import(pRef.ResolveGenericParameters(declaringTypeReference));
-			//	pRef.PropertyType = module.Import(pRef.PropertyType);
-			//}
 			return pDef;
 		}
 	}

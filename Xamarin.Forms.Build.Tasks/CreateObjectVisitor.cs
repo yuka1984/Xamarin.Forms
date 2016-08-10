@@ -87,7 +87,7 @@ namespace Xamarin.Forms.Build.Tasks
 				Context.IL.Append(il);
 				Context.IL.Emit(OpCodes.Stloc, vardef);
 
-				//clean the node has it has been fully exhausted
+				//clean the node as it has been fully exhausted
 				node.Properties.Clear();
 				node.CollectionItems.Clear();
 				return;
