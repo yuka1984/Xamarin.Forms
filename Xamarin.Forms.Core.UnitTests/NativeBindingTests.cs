@@ -77,12 +77,12 @@ namespace Xamarin.Forms.Core.UnitTests
 			return new MockNativeViewWrapper(nativeView);
 		}
 
-		public static void SetBinding(this MockNativeView target, string targetProperty, BindingBase binding, string updateSourceEventName)
+		public static void SetBinding(this MockNativeView target, string targetProperty, BindingBase binding, string updateSourceEventName = null)
 		{
 			NativeBindingHelpers.SetBinding(target, targetProperty, binding, updateSourceEventName);
 		}
 
-		public static void SetBinding(this MockNativeView target, string targetProperty, BindingBase binding, INotifyPropertyChanged propertyChanged = null)
+		internal static void SetBinding(this MockNativeView target, string targetProperty, BindingBase binding, INotifyPropertyChanged propertyChanged)
 		{
 			NativeBindingHelpers.SetBinding(target, targetProperty, binding, propertyChanged);
 		}
@@ -378,14 +378,6 @@ namespace Xamarin.Forms.Core.UnitTests
 			nativeView.SetBindingContext(new { FFoo = "Foo", BBar = 42 }, v => v.SubViews);
 			Assert.AreEqual("Foo", nativeViewChild.Foo);
 			Assert.AreEqual(42, nativeViewChild.Bar);
-		}
-
-		[Test]
-		public void ThrowsOnEmptyEvent()
-		{
-			var nativeView = new MockNativeView();
-
-			Assert.Throws<ArgumentNullException>(() => nativeView.SetBinding("Foo", new Binding("FFoo", mode: BindingMode.TwoWay), ""));
 		}
 
 		[Test]

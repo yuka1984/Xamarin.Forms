@@ -12,29 +12,27 @@ namespace Xamarin.Forms
 {
 	static class NativeBindingHelpers
 	{
-		public static void SetBinding<TNativeView>(TNativeView target, string targetProperty, BindingBase bindingBase, string updateSourceEventName) where TNativeView : class
+		public static void SetBinding<TNativeView>(TNativeView target, string targetProperty, BindingBase bindingBase, string updateSourceEventName=null) where TNativeView : class
 		{
-			if (string.IsNullOrEmpty(updateSourceEventName))
-				throw new ArgumentNullException(nameof(updateSourceEventName));
+			var binding = bindingBase as Binding;
+			//This will allow setting bindings from Xaml by reusing the MarkupExtension
+			if (IsNullOrEmpty(updateSourceEventName) && binding != null && !IsNullOrEmpty(binding.UpdateSourceEventName))
+				updateSourceEventName = binding.UpdateSourceEventName;
+			INotifyPropertyChanged eventWrapper = null;
+			if (!IsNullOrEmpty(updateSourceEventName))
+				eventWrapper = new EventWrapper(target, targetProperty, updateSourceEventName);
 
-			var eventWrapper = new EventWrapper(target, targetProperty, updateSourceEventName);
 			SetBinding(target, targetProperty, bindingBase, eventWrapper);
 		}
 
-		public static void SetBinding<TNativeView>(TNativeView target, string targetProperty, BindingBase bindingBase, INotifyPropertyChanged propertyChanged = null) where TNativeView : class
+		internal static void SetBinding<TNativeView>(TNativeView target, string targetProperty, BindingBase bindingBase, INotifyPropertyChanged propertyChanged) where TNativeView : class
 		{
 			if (target == null)
 				throw new ArgumentNullException(nameof(target));
-			if (string.IsNullOrEmpty(targetProperty))
+			if (IsNullOrEmpty(targetProperty))
 				throw new ArgumentNullException(nameof(targetProperty));
 
 			var binding = bindingBase as Binding;
-			//This will allow setting bindings from Xaml by reusing the MarkupExtension
-			if (propertyChanged == null && binding != null && !IsNullOrEmpty(binding.UpdateSourceEventName)) {
-				SetBinding(target, targetProperty, binding, binding.UpdateSourceEventName);
-				return;
-			}
-
 			var proxy = BindableObjectProxy<TNativeView>.BindableObjectProxies.GetValue(target, (TNativeView key) => new BindableObjectProxy<TNativeView>(key));
 			BindableProperty bindableProperty = null;
 			propertyChanged = propertyChanged ?? target as INotifyPropertyChanged;
