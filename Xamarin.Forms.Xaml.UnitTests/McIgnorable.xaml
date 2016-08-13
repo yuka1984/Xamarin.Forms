@@ -10,9 +10,4 @@
 	<ContentPage.BindingContext>
 		<d:FooBar />
 	</ContentPage.BindingContext>
-	<StackLayout x:Name="stack">
-		<d:FakeControlWithContent>
-			<Button />
-		</d:FakeControlWithContent>
-	</StackLayout>
 </ContentPage>

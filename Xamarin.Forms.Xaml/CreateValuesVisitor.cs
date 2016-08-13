@@ -62,11 +62,8 @@ namespace Xamarin.Forms.Xaml
 		{
 			object value = null;
 
-			if (node.SkipPrefix(node.NamespaceResolver.LookupPrefix(node.NamespaceURI))) {
-				node.Properties.Clear();
-				node.CollectionItems.Clear();
+			if (node.SkipPrefix(node.NamespaceResolver.LookupPrefix(node.NamespaceURI)))
 				return;
-			}
 
 			XamlParseException xpe;
 			var type = XamlParser.GetElementType(node.XmlType, node, Context.RootElement?.GetType().GetTypeInfo().Assembly,
