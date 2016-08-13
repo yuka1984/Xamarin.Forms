@@ -41,17 +41,6 @@ namespace Xamarin.Forms.Xaml
 		public void Visit(ValueNode node, INode parentNode)
 		{
 			Values[node] = node.Value;
-
-			XmlName propertyName;
-			if (ApplyPropertiesVisitor.TryGetPropertyName(node, parentNode, out propertyName))
-			{
-				if (propertyName.NamespaceURI == "http://schemas.openxmlformats.org/markup-compatibility/2006" &&
-				    propertyName.LocalName == "Ignorable")
-				{
-					(parentNode.IgnorablePrefixes ?? (parentNode.IgnorablePrefixes = new List<string>())).AddRange(
-						(node.Value as string).Split(','));
-				}
-			}
 		}
 
 		public void Visit(MarkupNode node, INode parentNode)
@@ -61,9 +50,6 @@ namespace Xamarin.Forms.Xaml
 		public void Visit(ElementNode node, INode parentNode)
 		{
 			object value = null;
-
-			if (node.SkipPrefix(node.NamespaceResolver.LookupPrefix(node.NamespaceURI)))
-				return;
 
 			XamlParseException xpe;
 			var type = XamlParser.GetElementType(node.XmlType, node, Context.RootElement?.GetType().GetTypeInfo().Assembly,

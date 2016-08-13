@@ -38,17 +38,6 @@ namespace Xamarin.Forms.Build.Tasks
 		public void Visit(ValueNode node, INode parentNode)
 		{
 			Context.Values[node] = node.Value;
-
-			XmlName propertyName;
-			if (SetPropertiesVisitor.TryGetPropertyName(node, parentNode, out propertyName))
-			{
-				if (propertyName.NamespaceURI == "http://schemas.openxmlformats.org/markup-compatibility/2006" &&
-				    propertyName.LocalName == "Ignorable")
-				{
-					(parentNode.IgnorablePrefixes ?? (parentNode.IgnorablePrefixes = new List<string>())).AddRange(
-						(node.Value as string).Split(','));
-				}
-			}
 		}
 
 		public void Visit(MarkupNode node, INode parentNode)
@@ -58,9 +47,6 @@ namespace Xamarin.Forms.Build.Tasks
 
 		public void Visit(ElementNode node, INode parentNode)
 		{
-			if (node.SkipPrefix((node.NamespaceResolver ?? parentNode.NamespaceResolver).LookupPrefix(node.NamespaceURI)))
-				return;
-
 			var typeref = node.XmlType.GetTypeReference(Module, node);
 			TypeDefinition typedef = typeref.Resolve();
 
