@@ -50,7 +50,7 @@ namespace Xamarin.Forms.Platform.WinRT
 
 		internal static void TransferbindablePropertiesToWrapper(this FrameworkElement target, View wrapper)
 		{
-			NativeBindingHelpers.TransferbindablePropertiesToWrapper(target, wrapper);
+			NativeBindingHelpers.TransferBindablePropertiesToWrapper(target, wrapper);
 		}
 	}
 }

@@ -69,8 +69,8 @@ namespace Xamarin.Forms
 		{
 			var mi = target.GetType().GetProperty(targetProperty)?.SetMethod;
 			if (mi == null)
-				throw new InvalidOperationException(Format("Native Binding on {0}.{1} failed due to missing or innacessible property", target.GetType(), targetProperty));
-			mi.Invoke(target, new [] { newValue });
+				throw new InvalidOperationException(Format("Native Binding on {0}.{1} failed due to missing or inaccessible property", target.GetType(), targetProperty));
+			mi.Invoke(target, new[] { newValue });
 		}
 
 		static void SetValueFromNative<TNativeView>(TNativeView target, string targetProperty, BindableProperty bindableProperty) where TNativeView : class
@@ -127,8 +127,8 @@ namespace Xamarin.Forms
 					SetBindingContext(child, bindingContext, getChild);
 		}
 
-		internal static void TransferbindablePropertiesToWrapper<TNativeView, TNativeWrapper>(TNativeView nativeView, TNativeWrapper wrapper) 
-			where TNativeView : class 
+		internal static void TransferBindablePropertiesToWrapper<TNativeView, TNativeWrapper>(TNativeView nativeView, TNativeWrapper wrapper)
+			where TNativeView : class
 			where TNativeWrapper : View
 		{
 			BindableObjectProxy<TNativeView> proxy;

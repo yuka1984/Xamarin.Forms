@@ -25,9 +25,9 @@ namespace Xamarin.Forms.Platform.Android
 			NativeBindingHelpers.SetBindingContext(target, bindingContext, getChildren);
 		}
 
-		internal static void TransferbindablePropertiesToWrapper(this global::Android.Views.View target, View wrapper)
+		internal static void TransferBindablePropertiesToWrapper(this global::Android.Views.View target, View wrapper)
 		{
-			NativeBindingHelpers.TransferbindablePropertiesToWrapper(target, wrapper);
+			NativeBindingHelpers.TransferBindablePropertiesToWrapper(target, wrapper);
 		}
 	}
 }

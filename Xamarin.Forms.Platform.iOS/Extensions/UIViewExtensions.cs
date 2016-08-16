@@ -62,7 +62,7 @@ namespace Xamarin.Forms.Platform.iOS
 
 		internal static void TransferbindablePropertiesToWrapper(this UIView target, View wrapper)
 		{
-			NativeBindingHelpers.TransferbindablePropertiesToWrapper(target, wrapper);
+			NativeBindingHelpers.TransferBindablePropertiesToWrapper(target, wrapper);
 		}
 
 		internal static T FindDescendantView<T>(this UIView view) where T : UIView
