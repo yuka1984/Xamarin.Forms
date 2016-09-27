@@ -376,7 +376,7 @@ namespace Xamarin.Forms.Xaml
 				{
 					Uri retval;
 					if (Uri.TryCreate(valuestring, UriKind.RelativeOrAbsolute, out retval))
-						value = retval;
+						return retval;
 				}
 			}
 			return value;

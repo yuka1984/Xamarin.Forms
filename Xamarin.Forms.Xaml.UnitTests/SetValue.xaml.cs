@@ -17,7 +17,7 @@ namespace Xamarin.Forms.Xaml.UnitTests
 	public class MockViewWithValues : View
 	{ 
 		public UInt16 UShort { get; set; }
-		public object Obj { get; set; }
+		public decimal ADecimal { get; set; }
 	}
 
 	public partial class SetValue : ContentPage
@@ -241,8 +241,7 @@ namespace Xamarin.Forms.Xaml.UnitTests
 			{ 
 				var page = new SetValue(useCompiledXaml);
 				Assert.AreEqual((ushort)32, page.mockView0.UShort);
-				Assert.That(page.mockView0.Obj, Is.TypeOf<ushort>());
-				Assert.AreEqual((ushort)32, page.mockView0.Obj);
+				Assert.AreEqual((decimal)42, page.mockView0.ADecimal);
 			}
 		}
 	}
