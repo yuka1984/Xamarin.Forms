@@ -32,6 +32,10 @@ namespace Xamarin.Forms.Platform.WinRT
 	{
 		internal static readonly BindableProperty RendererProperty = BindableProperty.CreateAttached("Renderer", typeof(IVisualElementRenderer), typeof(Platform), default(IVisualElementRenderer));
 
+#if WINDOWS_UWP
+		internal static StatusBar MobileStatusBar => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar") ? StatusBar.GetForCurrentView() : null;
+#endif
+
 		public static IVisualElementRenderer GetRenderer(VisualElement element)
 		{
 			return (IVisualElementRenderer)element.GetValue(RendererProperty);
@@ -79,11 +83,10 @@ namespace Xamarin.Forms.Platform.WinRT
 
 			UpdateBounds();
 
-
 #if WINDOWS_UWP
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+			StatusBar statusBar = MobileStatusBar;
+			if (statusBar != null)
 			{
-				StatusBar statusBar = StatusBar.GetForCurrentView();
 				statusBar.Showing += (sender, args) => UpdateBounds();
 				statusBar.Hiding += (sender, args) => UpdateBounds();
 			}
@@ -422,10 +425,9 @@ namespace Xamarin.Forms.Platform.WinRT
 		{
 			_bounds = new Rectangle(0, 0, _page.ActualWidth, _page.ActualHeight);
 #if WINDOWS_UWP
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+			StatusBar statusBar = MobileStatusBar;
+			if (statusBar != null)
 			{
-				StatusBar statusBar = StatusBar.GetForCurrentView();
-
 				bool landscape = Device.Info.CurrentOrientation.IsLandscape();
 				bool titleBar = CoreApplication.GetCurrentView().TitleBar.IsVisible;
 				double offset = landscape ? statusBar.OccludedRect.Width : statusBar.OccludedRect.Height;
