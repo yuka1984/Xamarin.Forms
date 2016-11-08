@@ -39,12 +39,4 @@ namespace Xamarin.Forms.Xaml
 			return false;
 		}
 	}
-
-	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
-	public sealed class XamlFilePathAttribute : Attribute
-	{
-		public XamlFilePathAttribute([CallerFilePath] string filePath = "")
-		{
-		}
-	}
 }
