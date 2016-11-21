@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 
 #endregion
 
+#if !MXBUILD
 [assembly: AssemblyTitle("ICSharpCode.Decompiler")]
 [assembly: AssemblyDescription("IL decompiler engine")]
 [assembly: AssemblyCompany("ic#code")]
@@ -14,13 +15,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright 2011-2014 AlphaSierraPapa for the SharpDevelop Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 // This sets the default COM visibility of types in the assembly to invisible.
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.
 [assembly: ComVisible(false)]
 
 [assembly: AssemblyVersion("$INSERTVERSION$")]
 [assembly: AssemblyInformationalVersion("$INSERTVERSION$$INSERTBRANCHPOSTFIX$$INSERTVERSIONNAMEPOSTFIX$-$INSERTSHORTCOMMITHASH$")]
+#endif
 [assembly: NeutralResourcesLanguage("en-US")]
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly",
