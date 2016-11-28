@@ -170,17 +170,16 @@ namespace Xamarin.Forms.Platform.iOS
 			return new SizeF(0, 0);
 		}
 
-		public override void DrawLayer(CoreAnimation.CALayer layer, CoreGraphics.CGContext context)
+		public override void LayoutSubviews()
 		{
-			base.DrawLayer(layer, context);
-			if (_blur != null)
+			base.LayoutSubviews();
+			if (_blur != null && Superview != null)
 			{
 				_blur.Frame = Bounds;
 				if (_blur.Superview == null)
 					Superview.Add(_blur);
 			}
 		}
-
 		protected override void Dispose(bool disposing)
 		{
 			if ((_flags & VisualElementRendererFlags.Disposed) != 0)
@@ -289,7 +288,7 @@ namespace Xamarin.Forms.Platform.iOS
 			}
 
 			_blur = new UIVisualEffectView(blurEffect);
-			SetNeedsDisplay();
+			LayoutSubviews();
 		}
 
 		protected virtual void UpdateNativeWidget()
