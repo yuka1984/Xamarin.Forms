@@ -170,12 +170,12 @@ namespace Xamarin.Forms.Platform.iOS
 			return new SizeF(0, 0);
 		}
 
-		public override void Draw(RectangleF rect)
+		public override void DrawLayer(CoreAnimation.CALayer layer, CoreGraphics.CGContext context)
 		{
-			base.Draw(rect);
+			base.DrawLayer(layer, context);
 			if (_blur != null)
 			{
-				_blur.Frame = rect;
+				_blur.Frame = Bounds;
 				if (_blur.Superview == null)
 					Superview.Add(_blur);
 			}
