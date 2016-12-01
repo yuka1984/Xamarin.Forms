@@ -284,13 +284,15 @@ namespace Xamarin.Forms.Xaml.UnitTests
 				Assert.AreEqual("Bar", page.implicit0.GetValue(MockViewWithValues.BPBarProperty));
 			}
 
-			//[TestCase(false)]
-			//[TestCase(true)]
-			//public void SetValueWithImplicitOperatorOnTarget(bool useCompiledXaml)
-			//{
-			//	var page = new SetValue(useCompiledXaml);
-			//	Assert.AreEqual("Foo", ((SV_Foo)page.implicit1.GetValue(MockViewWithValues.BPFooProperty)).Value);
-			//}
+			[TestCase(false)]
+			[TestCase(true)]
+			public void SetValueWithImplicitOperatorOnTarget(bool useCompiledXaml)
+			{
+				if (useCompiledXaml)
+					MockCompiler.Compile(typeof(SetValue));
+				var page = new SetValue(useCompiledXaml);
+				Assert.AreEqual("Foo", ((SV_Foo)page.implicit1.GetValue(MockViewWithValues.BPFooProperty)).Value);
+			}
 
 			[TestCase(false)]
 			[TestCase(true)]
@@ -300,13 +302,13 @@ namespace Xamarin.Forms.Xaml.UnitTests
 				Assert.AreEqual("Bar", page.implicit2.Bar);
 			}
 
-			//[TestCase(false)]
-			//[TestCase(true)]
-			//public void SetWithImplicitOperatorOnTarget(bool useCompiledXaml)
-			//{
-			//	var page = new SetValue(useCompiledXaml);
-			//	Assert.AreEqual("Foo", page.implicit3.Foo.Value);
-			//}
+			[TestCase(false)]
+			[TestCase(true)]
+			public void SetWithImplicitOperatorOnTarget(bool useCompiledXaml)
+			{
+				var page = new SetValue(useCompiledXaml);
+				Assert.AreEqual("Foo", page.implicit3.Foo.Value);
+			}
 		}
 	}
 }
